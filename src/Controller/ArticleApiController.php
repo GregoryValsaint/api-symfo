@@ -45,10 +45,41 @@ class ArticleApiController extends AbstractController
             return $this->json(["error" => "request content is required"], 400);
         }
         $article = $serializer->deserialize($request->getContent(), Article::class, "json");
-        $validator->validate($article);
+        $errors = $validator->validate($article);
+        if (sizeof($errors) > 0){
+            return $this->json($errors, 400);
+        }
         $em = $this->getDoctrine()->getManager();
         $em->persist($article);
         $em->flush();
         return $this->json($article);
+    }
+
+    /**
+     * @Route("/api/article/{article}", name="article_edit", methods={"PUT"})
+     */
+    public function edit(Article $article, Request $request, SerializerInterface $serializer, ValidatorInterface $validator)
+    {
+        if(!$request->getContent()){
+            return $this->json(["error" => "request content is required"], 400);
+        }
+        $serializer->deserialize($request->getContent(), Article::class, "json", ["object_to_populate" => $article]);
+        $errors = $validator->validate($article);
+        if (sizeof($errors) > 0){
+            return $this->json($errors, 400);
+        }
+        $this->getDoctrine()->getManager()->flush();
+        return $this->json($article, 201);
+    }
+
+    /**
+     * @Route("/api/article/{article}", name="article_delete", methods={"DELETE"})
+     */
+    public function delete(Article $article)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($article);
+        $em->flush();
+        return $this->json(["message" => "article deleted"]);
     }
 }
