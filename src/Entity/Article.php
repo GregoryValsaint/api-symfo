@@ -10,7 +10,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *     "get"={
+ *         "normalization_context"={
+ *              "groups"={"article_list"}
+ *     }
+ *     }
+ *     }
+ *     )
  */
 class Article
 {
