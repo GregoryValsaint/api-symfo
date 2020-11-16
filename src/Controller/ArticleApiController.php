@@ -21,7 +21,7 @@ class ArticleApiController extends AbstractController
     {
         $articles = $repository->findAll();
 
-        return $this->json($articles);
+        return $this->json($articles, 200, [], ["groups" => ["article_list"]]);
     }
 
     /**

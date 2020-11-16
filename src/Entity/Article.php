@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,6 +16,7 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"article_list"})
      */
     private $id;
 
@@ -22,6 +24,7 @@ class Article
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull()
      * @Assert\Length(min="5")
+     * @Groups({"article_list"})
      */
     private $title;
 
@@ -33,6 +36,7 @@ class Article
     /**
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
+     * @Groups({"article_list"})
      */
     private $published;
 
