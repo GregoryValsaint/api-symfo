@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ArticleApiController extends AbstractController
 {
@@ -38,12 +39,13 @@ class ArticleApiController extends AbstractController
      * @Route("/api/article", name="article_create", methods={"POST"})
      */
 
-    public function create(Request $request, SerializerInterface $serializer)
+    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator)
     {
         if(!$request->getContent()){
             return $this->json(["error" => "request content is required"], 400);
         }
         $article = $serializer->deserialize($request->getContent(), Article::class, "json");
+        $validator->validate($article);
         $em = $this->getDoctrine()->getManager();
         $em->persist($article);
         $em->flush();
