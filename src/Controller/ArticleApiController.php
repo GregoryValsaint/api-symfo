@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\EventListener\ArticleCreatedEvent;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,17 +41,20 @@ class ArticleApiController extends AbstractController
      * @Route("/api/article", name="article_create", methods={"POST"})
      */
 
-    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator)
+    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EventDispatcherInterface $dispatcher)
     {
         if(!$request->getContent()){
             return $this->json(["error" => "request content is required"], 400);
         }
+    /**@var Article $article */
         $article = $serializer->deserialize($request->getContent(), Article::class, "json");
         $errors = $validator->validate($article);
         if (sizeof($errors) > 0){
             return $this->json($errors, 400);
         }
         $em = $this->getDoctrine()->getManager();
+        $event = new ArticleCreatedEvent($article);
+        $dispatcher->dispatch($event, ArticleCreatedEvent::NAME);
         $em->persist($article);
         $em->flush();
         return $this->json($article);

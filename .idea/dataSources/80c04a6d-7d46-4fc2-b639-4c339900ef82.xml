@@ -1105,51 +1105,181 @@ ALL PRIVILEGES|symfony\_%:null
     <table id="350" parent="2" name="article">
       <Collation>utf8mb4_unicode_ci</Collation>
     </table>
-    <table id="351" parent="2" name="doctrine_migration_versions">
+    <table id="351" parent="2" name="category">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="352" parent="2" name="doctrine_migration_versions">
       <Collation>utf8_unicode_ci</Collation>
     </table>
-    <column id="352" parent="350" name="id">
+    <table id="353" parent="2" name="tag">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="354" parent="2" name="tag_article">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="355" parent="2" name="user">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <column id="356" parent="350" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="353" parent="350" name="title">
+    <column id="357" parent="350" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="354" parent="350" name="content">
+    <column id="358" parent="350" name="content">
       <Position>3</Position>
       <DataType>longtext|0s</DataType>
     </column>
-    <column id="355" parent="350" name="published">
+    <column id="359" parent="350" name="published">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="356" parent="350" name="PRIMARY">
+    <column id="360" parent="350" name="category_id">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="361" parent="350" name="IDX_23A0E6612469DE2">
+      <ColNames>category_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="362" parent="350" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="357" parent="351" name="version">
+    <foreign-key id="363" parent="350" name="FK_23A0E6612469DE2">
+      <ColNames>category_id</ColNames>
+      <RefTableName>category</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="364" parent="351" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="365" parent="351" name="title">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="366" parent="351" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="367" parent="352" name="version">
       <Position>1</Position>
       <DataType>varchar(191)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="358" parent="351" name="executed_at">
+    <column id="368" parent="352" name="executed_at">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="359" parent="351" name="execution_time">
+    <column id="369" parent="352" name="execution_time">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <key id="360" parent="351" name="PRIMARY">
+    <key id="370" parent="352" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
       <Primary>1</Primary>
+    </key>
+    <column id="371" parent="353" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="372" parent="353" name="description">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="373" parent="353" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="374" parent="354" name="tag_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="375" parent="354" name="article_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="376" parent="354" name="IDX_300B23CCBAD26311">
+      <ColNames>tag_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="377" parent="354" name="IDX_300B23CC7294869C">
+      <ColNames>article_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="378" parent="354" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>tag_id
+article_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="379" parent="354" name="FK_300B23CCBAD26311">
+      <ColNames>tag_id</ColNames>
+      <RefTableName>tag</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="380" parent="354" name="FK_300B23CC7294869C">
+      <ColNames>article_id</ColNames>
+      <RefTableName>article</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="381" parent="355" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="382" parent="355" name="username">
+      <Position>2</Position>
+      <DataType>varchar(180)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="383" parent="355" name="roles">
+      <Position>3</Position>
+      <Comment>(DC2Type:json)</Comment>
+      <DataType>longtext|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="384" parent="355" name="password">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="385" parent="355" name="UNIQ_8D93D649F85E0677">
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="386" parent="355" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="387" parent="355" name="UNIQ_8D93D649F85E0677">
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>UNIQ_8D93D649F85E0677</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>
